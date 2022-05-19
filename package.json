@@ -37,7 +37,7 @@
     "inquirer": "^8.2.4",
     "lodash": "^4.17.21",
     "luxon": "^2.4.0",
-    "marked": "^4.0.15",
+    "marked": "^4.0.16",
     "notifications-node-client": "^5.1.1",
     "nunjucks": "^3.2.3",
     "portscanner": "^2.2.0",
