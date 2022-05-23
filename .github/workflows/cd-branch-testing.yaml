@@ -33,7 +33,7 @@ jobs:
           local-image: foo
           image: ${ECR_NAME}:${{ github.sha }}
       - name: Update image tag
-        run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.tpl | envsubst > kubernetes-deploy.yaml
+        run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy-branch-testing.tpl | envsubst > kubernetes-deploy.yaml
       - name: Authenticate to the cluster
         env:
           KUBE_CERT: ${{ secrets.KUBE_CERT }}
