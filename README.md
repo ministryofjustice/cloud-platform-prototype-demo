@@ -1,6 +1,4 @@
-# MoJ Prototype Kit Template
-
-[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=for-the-badge&logo=github&label=MoJ%20Compliant&query=%24.data%5B%3F%28%40.name%20%3D%3D%20%22moj-prototype-template%22%29%5D.status&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fgithub_repositories)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/github_repositories#moj-prototype-template "Link to report")
+# Cloud Platform prototype demo
 
 Create a [Gov.UK Prototype Kit] website, hosted on the [MoJ Cloud Platform].
 
@@ -14,10 +12,7 @@ In addition to the protype kit v12.0.3, this repository contains Cloud Platform 
 
 **A continuous deployment (CD) workflow, targeting the Cloud Platform**
 
-* .github/workflows/cd.yaml
-* kubernetes/service.tpl
-* kubernetes/ingress.tpl
-* kubernetes/deployment.tpl
+* kubernetes-deploy-main.tpl
 
 **Local Development**
 
