@@ -13,7 +13,7 @@ const sessionInCookie = require('client-sessions')
 const sessionInMemory = require('express-session')
 
 // Run before other code to make sure variables from .env are available
-const result = dotenv.config()
+dotenv.config()
 
 // Local dependencies
 const middleware = [
@@ -24,15 +24,16 @@ const config = require('./app/config.js')
 const documentationRoutes = require('./docs/documentation_routes.js')
 const prototypeAdminRoutes = require('./lib/prototype-admin-routes.js')
 const packageJson = require('./package.json')
-const routes = require('./app/routes.js')
+const routes = require(`${process.cwd()}/app/routes.js`)
 const utils = require('./lib/utils.js')
 const extensions = require('./lib/extensions/extensions.js')
+const { projectDir } = require('./lib/utils')
 
 // Variables for v6 backwards compatibility
 // Set false by default, then turn on if we find /app/v6/routes.js
-let useV6 = false
-let v6App
-let v6Routes
+var useV6 = false
+var v6App
+var v6Routes
 
 if (fs.existsSync('./app/v6/routes.js')) {
   v6Routes = require('./app/v6/routes.js')
@@ -48,19 +49,18 @@ if (useV6) {
 }
 
 // Set up configuration variables
-const releaseVersion = packageJson.version
-const glitchEnv = (process.env.PROJECT_REMIX_CHAIN) ? 'production' : false // glitch.com
-const env = (process.env.NODE_ENV || glitchEnv || 'development').toLowerCase()
-const useAutoStoreData = process.env.USE_AUTO_STORE_DATA || config.useAutoStoreData
-const useCookieSessionStore = process.env.USE_COOKIE_SESSION_STORE || config.useCookieSessionStore
-let useHttps = process.env.USE_HTTPS || config.useHttps
+var releaseVersion = packageJson.version
+var env = utils.getNodeEnv()
+var useAutoStoreData = process.env.USE_AUTO_STORE_DATA || config.useAutoStoreData
+var useCookieSessionStore = process.env.USE_COOKIE_SESSION_STORE || config.useCookieSessionStore
+var useHttps = process.env.USE_HTTPS || config.useHttps
 
 useHttps = useHttps.toLowerCase()
 
-const useDocumentation = (config.useDocumentation === 'true')
+var useDocumentation = (config.useDocumentation === 'true')
 
 // Promo mode redirects the root to /docs - so our landing page is docs when published on heroku
-let promoMode = process.env.PROMO_MODE || 'false'
+var promoMode = process.env.PROMO_MODE || 'false'
 promoMode = promoMode.toLowerCase()
 
 // Disable promo mode if docs aren't enabled
@@ -68,7 +68,7 @@ if (!useDocumentation) promoMode = 'false'
 
 // Force HTTPS on production. Do this before using basicAuth to avoid
 // asking for username/password twice (for `http`, then `https`).
-const isSecure = (env === 'production' && useHttps === 'true')
+var isSecure = (env === 'production' && useHttps === 'true')
 if (isSecure) {
   app.use(utils.forceHttps)
   app.set('trust proxy', 1) // needed for secure cookies on heroku
@@ -118,12 +118,12 @@ if (useCookieSessionStore === 'true') {
 middleware.forEach(func => app.use(func))
 
 // Set up App
-const appViews = extensions.getAppViews([
-  path.join(__dirname, '/app/views/'),
-  path.join(__dirname, '/lib/')
+var appViews = extensions.getAppViews([
+  path.join(projectDir, '/app/views/'),
+  path.join(projectDir, '/lib/')
 ])
 
-const nunjucksConfig = {
+var nunjucksConfig = {
   autoescape: true,
   noCache: true,
   watch: false // We are now setting this to `false` (it's by default false anyway) as having it set to `true` for production was making the tests hang
@@ -135,7 +135,7 @@ if (env === 'development') {
 
 nunjucksConfig.express = app
 
-const nunjucksAppEnv = nunjucks.configure(appViews, nunjucksConfig)
+var nunjucksAppEnv = nunjucks.configure(appViews, nunjucksConfig)
 
 // Add Nunjucks filters
 utils.addNunjucksFilters(nunjucksAppEnv)
@@ -144,14 +144,14 @@ utils.addNunjucksFilters(nunjucksAppEnv)
 app.set('view engine', 'html')
 
 // Middleware to serve static assets
-app.use('/public', express.static(path.join(__dirname, '/public')))
+app.use('/public', express.static(path.join(projectDir, '/public')))
 
 // Serve govuk-frontend in from node_modules (so not to break pre-extensions prototype kits)
 app.use('/node_modules/govuk-frontend', express.static(path.join(__dirname, '/node_modules/govuk-frontend')))
 
 // Set up documentation app
 if (useDocumentation) {
-  const documentationViews = [
+  var documentationViews = [
     path.join(__dirname, '/node_modules/govuk-frontend/'),
     path.join(__dirname, '/node_modules/govuk-frontend/components'),
     path.join(__dirname, '/docs/views/'),
@@ -175,7 +175,7 @@ app.use(bodyParser.urlencoded({
 
 // Set up v6 app for backwards compatibility
 if (useV6) {
-  const v6Views = [
+  var v6Views = [
     path.join(__dirname, '/node_modules/govuk_template_jinja/views/layouts'),
     path.join(__dirname, '/app/v6/views/'),
     path.join(__dirname, '/lib/v6') // for old unbranded template
@@ -274,8 +274,8 @@ if (useV6) {
 
 // Strip .html and .htm if provided
 app.get(/\.html?$/i, function (req, res) {
-  let path = req.path
-  const parts = path.split('.')
+  var path = req.path
+  var parts = path.split('.')
   parts.pop()
   path = parts.join('.')
   res.redirect(path)
@@ -315,7 +315,7 @@ app.post(/^\/([^.]+)$/, function (req, res) {
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  const err = new Error(`Page not found: ${req.path}`)
+  var err = new Error(`Page not found: ${req.path}`)
   err.status = 404
   next(err)
 })

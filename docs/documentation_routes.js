@@ -28,7 +28,7 @@ router.get('/install/:page', function (req, res) {
     req.params.page = req.params.page.slice(0, -3)
   }
   redirectMarkdown(req.params.page, res)
-  const doc = fs.readFileSync(path.join(__dirname, '/documentation/install/', req.params.page + '.md'), 'utf8')
+  var doc = fs.readFileSync(path.join(__dirname, '/documentation/install/', req.params.page + '.md'), 'utf8')
   const renderOptions = utils.getRenderOptions(doc)
   res.render('install_template', renderOptions)
 })
@@ -44,7 +44,7 @@ router.get('/download', function (req, res) {
     const version = require('../package.json').version
 
     res.redirect(
-      `https://github.com/alphagov/govuk-prototype-kit/archive/v${version}.zip`
+      `https://github.com/alphagov/govuk-prototype-kit/releases/v${version}/download/govuk-prototype-kit-${version}.zip`
     )
   } else {
     res.redirect(
