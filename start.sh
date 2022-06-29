@@ -2,5 +2,5 @@
 
 set -eu pipefail
 
-node ./node_modules/gulp/bin/gulp generate-assets \
+node lib/build/generate-assets \
   && node listen-on-port.js
