@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu pipefail
+set -euo pipefail
 
-node lib/build/generate-assets \
+node ./node_modules/gulp/bin/gulp generate-assets \
   && node listen-on-port.js
