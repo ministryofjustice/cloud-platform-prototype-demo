@@ -52,10 +52,10 @@ kind: Ingress
 metadata:
     name: prototype-ingress
     annotations:
-        kubernetes.io/ingress.class: nginx
         external-dns.alpha.kubernetes.io/set-identifier: prototype-ingress-${PROTOTYPE_NAME}-green
         external-dns.alpha.kubernetes.io/aws-weight: "100"
 spec:
+    ingressclassname: default
     tls:
       - hosts:
           - ${PROTOTYPE_NAME}.apps.live.cloud-platform.service.justice.gov.uk
@@ -64,7 +64,7 @@ spec:
         http:
             paths:
               - path: /
-                pathType: ""
+                pathType: ImplementationSpecific
                 backend:
                     service:
                         name: nginx-service
