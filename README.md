@@ -1,4 +1,4 @@
-# Cloud Platform prototype dem
+# Cloud Platform prototype demo
 
 Create a [Gov.UK Prototype Kit] website, hosted on the [MoJ Cloud Platform].
 
