@@ -9,6 +9,10 @@ RUN addgroup -g 1017 -S appgroup \
 
 WORKDIR /app
 
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y make python g++
+
 COPY . .
 
 RUN npm install
