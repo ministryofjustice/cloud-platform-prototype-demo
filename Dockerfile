@@ -1,4 +1,4 @@
-FROM node:16.14-bullseye-slim
+FROM node:18-alpine
 
 ENV NODE_ENV=production
 
@@ -9,7 +9,7 @@ WORKDIR /app
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y make python g++
+    apt-get install -y make python3
 
 COPY . .
 
