@@ -6,7 +6,7 @@
   },
   "name": "govuk-prototype-kit",
   "dependencies": {
-    "@govuk-prototype-kit/step-by-step": "^2.1.0",
+    "@govuk-prototype-kit/step-by-step": "^2.2.2",
     "govuk-frontend": "^4.4.1",
     "govuk-prototype-kit": "^13.0.1",
     "jquery": "^3.6.3",
