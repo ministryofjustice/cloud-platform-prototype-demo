@@ -15,12 +15,12 @@ jobs:
       id-token: write # This is required for requesting the JWT
       contents: read # This is required for actions/checkout
     steps:
-      - uses: actions/checkout@v4
-      - uses: aws-actions/configure-aws-credentials@v2
+      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4
+      - uses: aws-actions/configure-aws-credentials@8c3f20df09ac63af7b3ae3d7c91f105f857d8497 # v2
         with:
           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
           aws-region: ${{ vars.ECR_REGION }}
-      - uses: aws-actions/amazon-ecr-login@v2
+      - uses: aws-actions/amazon-ecr-login@f2e9fc6c2b355c1890b65e6f6f0e2ac3e6e22f78 # v2
         id: login-ecr
       - run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
